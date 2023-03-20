@@ -1,0 +1,87 @@
+﻿key_in_bsbi
+Polystichum munitum x setiferum = P. x lesliei Rumsey & Acock
+
+Sorbus aucuparia x intermedia = S. x liljeforsii T.C.G.Rich
+
+Crataegus monogyna x heterophylla
+
+
+Rosa canina x rugosa = R. x praegeri Wolley-Dod
+Alnus glutinosa x incana = A. x hybrida A.Braun ex Rchb.
+
+Epilobium ciliatum x hirsutum = E. x novae-civitatis Smejkal
+Epilobium parviflorum x ciliatum = E. x floridulum Smejkal
+Epilobium brunnescens x parviflorum = E. x argillaceum Kitchener
+Epilobium ciliatum x montanum = E. x interjectum Smejkal
+Epilobium montanum x brunnescens = E. x confusilobum Kitchener & McKean
+Epilobium montanum x pedunculare = E. x kitcheneri McKean
+Epilobium lanceolatum x ciliatum
+Epilobium brunnescens x lanceolatum = E. x cornubiense Kitchener & McKean
+Epilobium tetragonum x ciliatum = E. x mentiens Smejkal
+Epilobium ciliatum x obscurum = E. x vicinum Smejkal
+Epilobium obscurum x brunnescens = E. x obscurescens Kitchener & McKean
+Epilobium roseum x ciliatum = E. x nutantiflorum Smejkal
+Epilobium ciliatum x palustre = E. x fossicola Smejkal
+Epilobium brunnescens x palustre = E. x chateri Kitchener & McKean
+Rorippa austriaca x sylvestris = R. x armoracioides (Tausch) Fuss
+Rorippa amphibia x austriaca = R. x hungarica Borbás
+
+
+Rumex conglomeratus x cuneifolius = R. x wrightii Lousley
+Rumex cuneifolius x obtusifolius = R. x cornubiensis Holyoak
+
+
+Rumex crispus x cristatus = R. x dimidiatus Hausskn
+Rumex cristatus x conglomeratus
+Rumex cristatus x obtusifolius = R. x lousleyi D.H.Kent
+Rumex cristatus x palustris = R. x akeroydii Rumsey
+Rumex crispus x patientia = R. x confusus Simonk.
+
+Rumex patientia x conglomeratus = R. x philpii
+Rumex obtusifolius x patientia = R. x erubescens Simonk.
+
+Cerastium arvense x tomentosum = C. x maueri nom. nud. Schulze
+Calystegia pulchra x sepium = C. x scanica Brummitt
+Calystegia sepium x silvatica = C. x lucana (Ten.) G.Don
+Solanum nigrum x nitidibaccatum = S. x procurrens A.C.Leslie
+
+Verbascum blattaria x nigrum = V. x intermedium Rupr. ex Bercht. & Pfund
+Verbascum thapsus x virgatum = V. x lemaitrei Boreau
+
+
+
+Verbascum pyramidatum x thapsus
+Verbascum pyramidatum x nigrum
+
+Verbascum phlomoides x thapsus = V. x kerneri Fritsch
+
+
+Verbascum speciosum x thapsus = V. x duernsteinense Teyber
+
+Prunella laciniata x vulgaris = P. x intermedia Link
+Euphrasia tetraquetra x stricta
+
+Centaurea jacea x nigra s.l.
+
+Tragopogon porrifolius x pratensis = T. x mirabilis Rouy
+Pilosella aurantiaca subsp. carpathicola x officinarum = P. x stoloniflora (Waldst. & Kit.) F.W.Schultz & Sch.Bip.
+Solidago canadensis x virgaurea = S. x niederederi Khek
+Conyza canadensis x Erigeron acer = X Conyzigeron huelsenii (Vatke) Rauschert
+
+
+Senecio cineraria x jacobaea = S. x albescens Burb. & Colgan
+Senecio cineraria x erucifolius = S. x thuretii Briq. & Cavill.
+Senecio vernalis x vulgaris = S. x helwingii Beger ex Hegi
+Senecio sylvaticus x viscosus = S. x viscidulus Scheele
+Dipsacus fullonum x sativus
+Dipsacus fullonum x laciniatus = D. x pseudosilvester Schur
+Heracleum sphondylium x mantegazzianum
+
+Juncus effusus x pallidus
+Festuca pratensis x Lolium multiflorum = X Festulolium braunii (K.Richt.) A.Camus
+Festuca arundinacea x Lolium multiflorum
+Agrostis capillaris x castellana = A. x fouilladeana Lambinon & Verloove
+Agrostis stolonifera x Polypogon viridis = X Agropogon robinsonii (Druce) Melderis & D.C.McClint.
+Spartina alterniflora x maritima = S. x townsendii H.Groves & J.Groves
+
+Medicago sativa subsp. falcata x subsp. sativa = Medicago sativa nothosubsp. varia (Martyn) Arcang.
