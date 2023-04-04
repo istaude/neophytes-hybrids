@@ -25,17 +25,17 @@ The script structure follows the figures in the main text.
 
 1.  `00` loads all packages
 
-2.  `01` contains the code to check the spatial geographic overlap
+2.  `01` contains the code to test the spatial geographic overlap
     between hybrid and neophyte incidence.
 
 3.  `01b` contains the code to quantify how often naturalizations meet
     congeners.
 
 4.  `02` contains the code to check the taxonomic overlap between hybrid
-    and neophyte incidence, and to visualize the phylogeny
+    and neophyte incidence, and to visualize the phylogeny.
 
 5.  `03` contains the code to compare diversification rates in genera
-    with and without neophytes and hybrids
+    with and without neophytes and hybrids.
 
 6.  `04` contains the code to compare the geographic distribution of
     neophyte, native and hybrid in relation to the human footprint in
