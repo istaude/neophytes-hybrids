@@ -1,10 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Code for “Neophytes may promote hybridization and adaptations to a changing planet”
+# About
 
 The R Code provided in this repository allows to reproduce the entire
-data carpentry, analysis and data visualization.
+data carpentry, analysis and visualization of *“Neophytes may promote
+hybridization and adaptations to a changing planet”*.
 
 POWO, GloNAF and human footprint data are publicly available at:
 
@@ -19,9 +20,10 @@ Human footprint:
 British Ordnance Survey national grid is available at:
 <https://github.com/OrdnanceSurvey/OS-British-National-Grids>
 
-The script structure follows the figures in the main text.
-
 ## Folder structure
+
+The script structure in the `R-code` folder follows the figures in the
+main text.
 
 1.  `00` loads all packages
 
