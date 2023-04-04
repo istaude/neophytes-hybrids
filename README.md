@@ -44,5 +44,4 @@ The script structure follows the figures in the main text.
 ## Contact
 
 Please contact us at <ingmar.staude@uni-leipzig.de> if you have further
-questions, or information on plants we have not listed yet among
-conservation gardening species.
+questions.
