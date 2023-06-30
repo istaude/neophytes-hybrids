@@ -20,6 +20,10 @@ Human footprint:
 British Ordnance Survey national grid is available at:
 <https://github.com/OrdnanceSurvey/OS-British-National-Grids>
 
+All data generated and used in this analysis are also available on
+Google Drive at:
+<https://drive.google.com/drive/folders/10OSBjEMdoXF9lI1s1mj6-EBo0mTL3drj?usp=sharing>
+
 ## Folder structure
 
 The script structure in the `R-code` folder follows the figures in the
