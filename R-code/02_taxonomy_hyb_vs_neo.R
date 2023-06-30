@@ -1,11 +1,11 @@
-source("R-code-clean/00_preamble.R")
+source("R-code/00_preamble.R")
 
 # aim ---------------------------------------------------------------------
 # check taxonomic overlap between neophytes and hybrids
 
 
 # hybrids -----------------------------------------------------------------
-kew_sp <- fread("Data/kew/checklist_names.txt")
+kew_sp <- fread("Data/kew/checklist_names.txt", encoding = "UTF-8")
 
 # kew species data
 kew_hyb <- kew_sp %>% filter(species_hybrid == "×" | species_hybrid == "+")
@@ -370,3 +370,69 @@ ggarrange(
 
 ggsave(dpi = 600, height = 6.05, width = 6.02, bg = "white",
        "Figures/hybrid_neo_ratio_taxonomoy.png")
+
+
+
+# phylo signal ------------------------------------------------------------
+
+# data preparation
+tips <- as.data.frame(Tree$tip.label)
+colnames(tips) <- "genus"
+tip_states_all_Tree <- dplyr::left_join(dplyr::left_join(tips, tip_states_all, by="genus"), tip_states[,-4], by = "genus")
+str(tip_states_all_Tree)
+
+# Phylogenetic signal for number of hybrids
+traits <- tip_states_all_Tree$n_hyb
+names(traits) <- tip_states_all_Tree$genus
+
+phySig <- phylosig(Tree, tip_states_all_Tree$n_hyb, method = "K", test= T)
+lambdaModel <- fitContinuous(Tree, traits, model = "lambda")
+lambdaModel$opt$aicc
+
+#compare to null model
+nosigModel <- fitContinuous(Tree, traits, model="lambda", bounds=list(lambda=c(0, 0.0001)))
+nosigModel$opt$aicc
+
+p.lam <- pchisq( 2*(lambdaModel$opt$lnL - nosigModel$opt$lnL), 1, lower.tail=FALSE)
+p.lam
+
+# Phylogenetic signal for number of neophytes
+traits <- tip_states_all_Tree$n_neo
+names(traits) <- tip_states_all_Tree$genus
+
+phySig <- phylosig(Tree, tip_states_all_Tree$n_neo, method = "K", test= T)
+lambdaModel <- fitContinuous(Tree, traits, model = "lambda")
+lambdaModel$opt$aicc
+
+# compare to null model
+nosigModel <- fitContinuous(Tree, traits, model="lambda", bounds=list(lambda=c(0, 0.0001)))
+nosigModel$opt$aicc
+
+p.lam <- pchisq( 2*(lambdaModel$opt$lnL - nosigModel$opt$lnL), 1, lower.tail=FALSE)
+p.lam
+
+# Phylogenetic signal for presence of hybrids or neophytes (binary character)
+Tree$node.label <- c(1:length(Tree$node.label))
+Tree3 <- di2multi(Tree)
+
+tip_states_all$hyb_present <- gsub("no hybrid", 0, tip_states_all$hyb_present)
+tip_states_all$hyb_present <- gsub("hybrid", 1, tip_states_all$hyb_present)
+
+tip_states_all$neo_present <- gsub("no neophyte", 0 , tip_states_all$neo_present)
+tip_states_all$neo_present <- gsub("neophyte", 1, tip_states_all$neo_present)
+
+tips <- as.data.frame(Tree$tip.label)
+colnames(tips) <- "genus"
+tip_states_all_Tree <- dplyr::left_join(dplyr::left_join(tips, tip_states_all, by="genus"), tip_states[,-4], by = "genus")
+str(tip_states_all_Tree)
+
+#neo present
+all_dat <- comparative.data(Tree3, tip_states_all_Tree[which(is.na(tip_states_all_Tree$neo_present) == F), ], genus, na.omit = F)
+res_neo <- phylo.d(all_dat, binvar=neo_present, permut = 1000, rnd.bias=NULL)
+plot(res_neo)
+
+#hybrid present
+all_dat_hyb <- comparative.data(Tree3, tip_states_all_Tree[which(is.na(tip_states_all_Tree$hyb_present) == F), ], genus, na.omit = F)
+res_hyb <- phylo.d(all_dat_hyb, binvar=neo_present, permut = 1000, rnd.bias=NULL)
+plot(res_hyb)
+

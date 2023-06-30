@@ -1,4 +1,4 @@
-source("R-code-clean/00_preamble.R")
+source("R-code/00_preamble.R")
 
 
 # calculate diversification rates -----------------------------------------
@@ -10,7 +10,7 @@ div_rates <- nodes.info.1 %>%
   dplyr::select(family, genus, rn.bl)
 
 # get data from kew: species richness per genera
-kew_sp <- fread("Data/kew/checklist_names.txt")
+kew_sp <- fread("Data/kew/checklist_names.txt", encoding = "UTF-8")
 kew_spn_per_gen <- kew_sp %>% 
   filter(taxon_status == "Accepted") %>% 
   filter(taxon_rank == "Species") %>% 

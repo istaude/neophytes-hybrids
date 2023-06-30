@@ -1,4 +1,4 @@
-source("R-code-clean/00_preamble.R")
+source("R-code/00_preamble.R")
 
 
 # aim ---------------------------------------------------------------------
@@ -19,7 +19,7 @@ source("R-code-clean/00_preamble.R")
 # hybrids -----------------------------------------------------------------
 # read species list
 # can be downloaded from: https://storage.googleapis.com/kew-dev-backup/world_checklist_names_and_distribution_feb_21.zip
-kew_sp <- fread("Data/kew/checklist_names.txt")
+kew_sp <- fread("Data/kew/checklist_names.txt", encoding = "UTF-8")
 
 # kew species data
 kew_hyb <- kew_sp %>% filter(species_hybrid == "×" | species_hybrid == "+")

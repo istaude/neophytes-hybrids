@@ -1,4 +1,4 @@
-source("R-code-clean/00_preamble.R")
+source("R-code/00_preamble.R")
 
 # aim ---------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ glonaf_tdwg3 <- glonaf_full %>% select(standardized_name, genus_acc, tdwg3) %>% 
 # read powo data ----------------------------------------------------------
 
 # read species list
-kew_sp <- fread("Data/kew/checklist_names.txt")
+kew_sp <- fread("Data/kew/checklist_names.txt", encoding = "UTF-8")
 
 # kew species data
 kew_gen <- kew_sp %>% 
