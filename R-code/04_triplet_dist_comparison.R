@@ -224,7 +224,7 @@ pp1 <- shift_legend2(pp1)
 b_mod_parent <- brm(hf ~ native_combined + (1|species_name_submitted), 
             data = hyb_long_threshold,
             family = gaussian,
-            iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr",
+            iter = 2000, warmup = 500, chains = 4, cores = 4, 
             file = "Models/triplet.RDS")
 
 b_mod_parent <- readRDS("Models/triplet.RDS")

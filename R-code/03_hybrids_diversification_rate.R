@@ -143,7 +143,7 @@ emmeans(modlm_div, "type", type = "response") %>%
 b_mod_div <- brm(data = d_model_div, 
              family = gaussian,
              div_rate_root_age_lower_log ~ type,
-             iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr",
+             iter = 2000, warmup = 500, chains = 4, cores = 4, 
              file = "Models/diversification_rate.rds")
 
 b_mod_div <- readRDS("Models/diversification_rate.rds")
@@ -355,7 +355,7 @@ ggsave(dpi = 600, height = 6.05, width = 9.05, bg = "white",
 b_mod_div2 <- brm(data = d_model_div, 
                   family = gaussian,
                   div_rate_root_age_lower_log ~ type + nspp_in_genera,
-                  iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr")
+                  iter = 2000, warmup = 500, chains = 4, cores = 4)
 
 b_mod_div2 %>% 
   emmeans(~ type,

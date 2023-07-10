@@ -30,61 +30,35 @@ glonaf_higher_taxa <- glonaf_sp %>%
   filter(hybrid == 0) %>%   
   filter(status == "naturalized") %>% 
   filter(name_status == "accepted") %>% 
-  dplyr::select(standardized_name, family_tpl) %>% 
+  dplyr::select(standardized_name, author, family_tpl) %>% 
   distinct %>% 
   mutate(genus = sapply(strsplit(standardized_name, " "), "[", 1))
 
-# genus names of glonaf may not match the accepted taxonomy of WCVP
-# for example they list Spartina species but in fact they belong to
-# the genus Sporobolus
-glonaf_higher_taxa_wcvp <- left_join(
-  glonaf_higher_taxa,
-  kew_sp %>% 
-    filter(taxon_rank == "Genus") %>% 
-    dplyr::select(genus, taxon_status, accepted_plant_name_id) ) 
+# taxonomic harmonization
+# perform other check with rwcvp
+wcvp_match <- wcvp_match_names(glonaf_higher_taxa, 
+                               name_col = "standardized_name", author_col = "author",
+                               fuzzy = TRUE)
+# read and write
+write_delim(wcvp_match, 
+            file = "Data/GLONAF/GloNAF_wcvp_match.csv", 
+            quote = "none", delim = ";")
+wcvp_match <- read_delim("Data/GLONAF/GloNAF_wcvp_match.csv", delim = ";")
 
-# now if a genus has more than 1 match...
-glonaf_higher_taxa_wcvp %>% dplyr::select(genus, accepted_plant_name_id) %>% distinct %>% 
-  count(genus) %>% arrange(desc(n))
+# pull correct genus name
+wcvp_acc <- wcvp_match %>% dplyr::select(standardized_name, wcvp_accepted_id)
+names <- rWCVPdata::wcvp_names %>% dplyr::select(wcvp_accepted_id = plant_name_id, genus)
 
-# pick the accepted genus
-glonaf_higher_taxa_wcvp <- bind_rows(
-  left_join(glonaf_higher_taxa_wcvp,
-            glonaf_higher_taxa_wcvp %>% dplyr::select(genus, accepted_plant_name_id) %>% distinct %>% 
-              count(genus)) %>% filter(n == 1), 
-  
-  left_join(glonaf_higher_taxa_wcvp,
-            glonaf_higher_taxa_wcvp %>% dplyr::select(genus, accepted_plant_name_id) %>% distinct %>% 
-              count(genus)) %>% filter(n > 1) %>% filter(taxon_status == "Accepted") 
-) %>% dplyr::select(-n)
+# correct genus names
+glonaf_higher_taxa_wcvp <- left_join(wcvp_acc, names) 
 
-
-# now retrieve the correct genus name
-glonaf_higher_taxa_wcvp <- left_join(
-  glonaf_higher_taxa_wcvp,
-  kew_sp %>% 
-    filter(taxon_rank == "Genus") %>%
-    filter(taxon_status == "Accepted") %>% 
-    dplyr::select(plant_name_id, genus) %>% 
-    distinct %>% 
-    rename(genus_acc = genus), by = c("accepted_plant_name_id" = "plant_name_id"))
-
-# checks
-glonaf_higher_taxa_wcvp %>% dplyr::select(accepted_plant_name_id, genus_acc) %>% distinct %>% 
-  count(genus_acc) %>% arrange(desc(n))
-
-# which species have nas
-glonaf_higher_taxa_wcvp %>% filter(is.na(genus_acc))
-glonaf_higher_taxa_wcvp <- glonaf_higher_taxa_wcvp %>% filter(!is.na(genus_acc))
-
-
-
+View(glonaf_higher_taxa_wcvp)
 write_csv(glonaf_higher_taxa_wcvp, "Data/glonaf_higher_taxa_wcvp.csv")
+
 # join --------------------------------------------------------------------
 tax_overlap_gen <- full_join(kew_hyb_higher_taxa %>% count(genus) %>% rename(n_hyb = n),
-                             glonaf_higher_taxa_wcvp %>% count(genus_acc) %>% rename(n_neo = n), 
-                             by = c("genus" = "genus_acc"))
-
+                             glonaf_higher_taxa_wcvp %>% count(genus) %>% rename(n_neo = n), 
+                             by = c("genus" = "genus"))
 
 
 # analyse -----------------------------------------------------------------
@@ -115,30 +89,26 @@ tax_overlap_gen %>% na.omit() %>% dplyr::select(genus) %>% distinct %>% nrow/
 write_csv(tax_overlap_gen, "Data/tax_overlap_gen.csv")
 # 74% of all genera that produce hybrids are also genera that produce neophytes
 
-# as seen previously only 644 genera with neophytes also include hybrids,
+# as seen previously only 663 genera with neophytes also include hybrids,
 # for what percentage of neophyte species do these genera account, and for how many
 # naturalization events
 tax_overlap_gen <- fread("Data/tax_overlap_gen.csv")
 
 # how many neophyte species do these genera represent
 tax_overlap_gen %>% na.omit() %>% 
-  left_join(glonaf_higher_taxa_wcvp %>% 
-              dplyr::select(-genus), by = c("genus" = "genus_acc")) %>% 
+  left_join(glonaf_higher_taxa_wcvp) %>% 
   nrow
-glonaf_higher_taxa_wcvp %>% nrow
 
 # how many naturalizations do these genera present
 glonaf_kew_dis_comp <- fread("Data/glonaf_kew_dis_comp.csv")
 relevant_species <- tax_overlap_gen %>% na.omit() %>% 
-  left_join(glonaf_higher_taxa_wcvp %>% 
-              dplyr::select(-genus), by = c("genus" = "genus_acc")) %>% 
+  left_join(glonaf_higher_taxa_wcvp) %>% 
   dplyr::select(standardized_name)
 
-left_join(relevant_species, glonaf_kew_dis_comp) %>% nrow /
+left_join(relevant_species %>% distinct, glonaf_kew_dis_comp) %>% nrow /
 glonaf_kew_dis_comp %>% nrow
 
-left_join(relevant_species, glonaf_kew_dis_comp) %>% na.omit %>% nrow /
-  left_join(relevant_species, glonaf_kew_dis_comp) %>% nrow
+
 # -------------------------------------------------------------------------
 
 # second, in genera that produce many neophytes, are there also more hybrids
@@ -177,6 +147,7 @@ d_tax <- tax_overlap_gen %>%
 # level to 1
 #d_tax <- d_tax %>% mutate(ratio_neo = ifelse(ratio_neo > 1, 1, ratio_neo))
 
+
 # statistical model -------------------------------------------------------
 
 # ratio
@@ -185,7 +156,7 @@ d_tax$ratio_neo_log <- log10(d_tax$ratio_neo)
 b_mod_tax <- brm(data = d_tax, 
              family = gaussian,
              ratio_hyb_log ~ ratio_neo_log,
-             iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr",
+             iter = 2000, warmup = 500, chains = 4, cores = 4,
              file = "Models/taxonomy_overlap_ratio.rds")
 
 b_mod_tax <- readRDS("Models/taxonomy_overlap_ratio.rds")
@@ -193,7 +164,7 @@ b_mod_tax
 
 
 # interpret the coefficient: 
-(1.2^0.63 -1) * 100
+(1.2^0.64 -1) * 100
 
 fit_tax <- fitted(b_mod_tax) %>% 
   data.frame() %>% 
@@ -243,7 +214,7 @@ d_tax$n_neo_log <- log10(d_tax$n_neo)
 b_mod_tax_n <- brm(data = d_tax, 
                  family = gaussian,
                  n_hyb_log ~ n_neo_log,
-                 iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr",
+                 iter = 2000, warmup = 500, chains = 4, cores = 4,
                  file = "Models/taxonomy_overlap_numbers.rds")
 
 b_mod_tax_n <- readRDS("Models/taxonomy_overlap_numbers.rds")
@@ -251,7 +222,7 @@ b_mod_tax_n
 
 
 # interpret the coefficient: 
-(1.2^0.63 -1) * 100
+(1.2^0.43 -1) * 100
 
 fit_tax_n <- fitted(b_mod_tax_n) %>% 
   data.frame() %>% 
@@ -334,7 +305,6 @@ nrow(tip_states_all_Tree)
 tip_states_all_Tree <- tip_states_all_Tree %>% 
   filter(!is.na(type)) %>% 
   filter(type != "no hybrid & no neophyte")
-
 
 
 tip_states_all_Tree_long_x <- reshape2::melt(tip_states_all_Tree[,c(1,13,14)], id.vars = "genus")  %>% 

@@ -474,7 +474,7 @@ d_model <- d %>%
 b_mod <- brm(data = d_model, 
              family = gaussian,
              num_hyb_log ~ num_neo_log + area_log + author_log + avg_gdp_log,
-             iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr", file = "Models/geography_numbers.rds")
+             iter = 2000, warmup = 500, chains = 4, cores = 4, file = "Models/geography_numbers.rds")
 
 b_mod <- readRDS("Models/geography_numbers.rds")
 
@@ -564,7 +564,8 @@ d_model_ratio <- d_ratios %>%
 b_mod_ratio <- brm(data = d_model_ratio, 
              family = gaussian,
              hyb_per_nat_log ~ neo_per_nat_log + area_log + author_log + avg_gdp_log,
-             iter = 2000, warmup = 500, chains = 4, cores = 4, backend = "cmdstanr", file = "Models/geography_ratios.rds")
+             iter = 2000, warmup = 500, chains = 4, cores = 4, 
+             file = "Models/geography_ratios.rds")
 
 b_mod_ratio <- readRDS("Models/geography_ratios.rds")
 
